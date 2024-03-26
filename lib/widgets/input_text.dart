@@ -4,6 +4,8 @@ class InputText extends StatelessWidget {
   final String label;
   final bool obscureText, borderEnabled;
   final double fontSize;
+  final void Function(String text)? onChanged;
+  final String? Function(String?) validator;
   final TextInputType keyboardType;
   const InputText({
     super.key,
@@ -11,7 +13,9 @@ class InputText extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.obscureText = false,
     this.borderEnabled = true,
-    this.fontSize = 15
+    this.fontSize = 15,
+    this.onChanged,
+    required this.validator,
   });
 
   @override
@@ -19,9 +23,8 @@ class InputText extends StatelessWidget {
     return TextFormField(
       keyboardType: keyboardType,
       obscureText: obscureText,
-      onChanged: (text){
-        print(":::::::::$text");
-      },
+      onChanged: onChanged,
+      validator: validator,
       style: TextStyle(
         fontSize: fontSize,
       ),

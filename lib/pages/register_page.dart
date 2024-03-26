@@ -1,17 +1,20 @@
 // ignore_for_file: library_private_types_in_public_api, use_key_in_widget_constructors
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_api_rest/utils/responsive.dart';
+import 'package:flutter_api_rest/widgets/avatar_button.dart';
 import 'package:flutter_api_rest/widgets/circle.dart';
 import 'package:flutter_api_rest/widgets/icon_container.dart';
-import 'package:flutter_api_rest/widgets/login_form.dart';
 
-class HomePage extends  StatefulWidget{
+class RegisterPage extends  StatefulWidget{
+  static const routeName = 'register';
   @override
-  _HomePageState createState() => _HomePageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
 
@@ -35,7 +38,7 @@ class _HomePageState extends State<HomePage> {
           alignment: Alignment.center,
           children: <Widget>[
             Positioned(
-              top: -(pinkSize)*0.35,
+              top: -(pinkSize)*0.15,
               right: -(pinkSize)*0.2,
               child: Circle(
                 size: pinkSize,
@@ -43,7 +46,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Positioned(
-              top: -(orangeSize)*0.65,
+              top: -(orangeSize)*0.45,
               left: -(orangeSize)*0.15,
               child: Circle(
                 size: orangeSize,
@@ -51,26 +54,35 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Positioned(
-              top: pinkSize * 0.4,
+              top: pinkSize * 0.2,
               child: Column(
                 children: [
-                  IconContainer(
-                    size: logoSize,
-                  ),
-                  SizedBox(
-                    height: responsive.dp(3),
-                  ),
                   Text(
-                    "Hello Again\nWelcome Back!",
+                    "Hello!\nSign up to get started",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: responsive.dp(2),
+                      color: Colors.white,
                     ),
+                  ),
+                  SizedBox(height: responsive.dp(4.5),),
+                  AvatarButton(
+                    imageSize: responsive.wp(25),
                   ),
                 ],
               ),
             ),
-            LoginForm()
+            Positioned(
+              left: 15,
+              top: 25,
+              child: CupertinoButton(
+                color: Colors.black26,
+                padding: EdgeInsets.all(10),
+                borderRadius: BorderRadius.circular(30),
+                child: Icon(Icons.arrow_back),
+                onPressed: (){},
+              ),
+            ),
           ],
         ),
       ),
