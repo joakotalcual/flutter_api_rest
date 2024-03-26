@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 
 class InputText extends StatelessWidget {
   final String label;
-  final bool obscureText;
+  final bool obscureText, borderEnabled;
+  final double fontSize;
   final TextInputType keyboardType;
   const InputText({
     super.key,
     this.label = '',
     this.keyboardType = TextInputType.text,
-    this.obscureText = false
+    this.obscureText = false,
+    this.borderEnabled = true,
+    this.fontSize = 15
   });
 
   @override
@@ -16,7 +19,17 @@ class InputText extends StatelessWidget {
     return TextFormField(
       keyboardType: keyboardType,
       obscureText: obscureText,
+      style: TextStyle(
+        fontSize: fontSize,
+      ),
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 5),
+        border: borderEnabled
+          ? UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.black12,
+            )
+          ): InputBorder.none,
         labelText: label,
         labelStyle: TextStyle(
           color: Colors.black45,
