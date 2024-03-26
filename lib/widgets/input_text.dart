@@ -19,19 +19,22 @@ class InputText extends StatelessWidget {
     return TextFormField(
       keyboardType: keyboardType,
       obscureText: obscureText,
+      onChanged: (text){
+        print(":::::::::$text");
+      },
       style: TextStyle(
         fontSize: fontSize,
       ),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 5),
+        contentPadding: const EdgeInsets.symmetric(vertical: 5),
         border: borderEnabled
-          ? UnderlineInputBorder(
+          ? const UnderlineInputBorder(
             borderSide: BorderSide(
               color: Colors.black12,
             )
           ): InputBorder.none,
         labelText: label,
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: Colors.black45,
           fontWeight: FontWeight.w500
         ),
