@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, use_key_in_widget_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_api_rest/widgets/circle.dart';
 import 'package:flutter_api_rest/widgets/icon_container.dart';
@@ -12,8 +14,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
     final Size size = MediaQuery.of(context).size;
-    final double pinkSize = size.width * 0.8;
-    final double orangeSize = size.width * 0.57;
+    final double pinkSize = size.width * 0.75;
+    final double orangeSize = size.width * 0.67;
 
     return Scaffold(
       body: Container(
@@ -24,11 +26,11 @@ class _HomePageState extends State<HomePage> {
           alignment: Alignment.center,
           children: <Widget>[
             Positioned(
-              top: -(pinkSize)*0.5,
+              top: -(pinkSize)*0.3,
               right: -(pinkSize)*0.2,
               child: Circle(
                 size: pinkSize,
-                colors: [Colors.pinkAccent, Colors.pink],
+                colors: const [Colors.pinkAccent, Colors.pink],
               ),
             ),
             Positioned(
@@ -36,10 +38,10 @@ class _HomePageState extends State<HomePage> {
               left: -(orangeSize)*0.15,
               child: Circle(
                 size: orangeSize,
-                colors: [Colors.orange, Colors.deepOrange],
+                colors: const [Colors.orange, Colors.deepOrange],
               ),
             ),
-            Positioned(
+            const Positioned(
               top: 130,
               child: IconContainer(
                 size: 120,
