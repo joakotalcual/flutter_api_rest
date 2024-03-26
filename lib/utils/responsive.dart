@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class Responsive{
-  double _width, _height, _diagonal = 0.0;
+  double _width= 0.0, _height= 0.0, _diagonal = 0.0;
 
   double get width => _width;
   double get height => _height;
