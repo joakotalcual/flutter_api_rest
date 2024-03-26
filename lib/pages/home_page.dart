@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_api_rest/utils/responsive.dart';
 import 'package:flutter_api_rest/widgets/circle.dart';
 import 'package:flutter_api_rest/widgets/icon_container.dart';
+import 'package:flutter_api_rest/widgets/login_form.dart';
 
 class HomePage extends  StatefulWidget{
   @override
@@ -16,19 +17,25 @@ class _HomePageState extends State<HomePage> {
 
     final Responsive responsive = Responsive.of(context);
     final double pinkSize = responsive.wp(75);
-    final double orangeSize = responsive.wp(67);
-    final double logoSize = responsive.wp(25);
+    final double orangeSize = responsive.wp(65);
+    final double logoSize = responsive.wp(20);
 
     return Scaffold(
-      body: Container(
+      body: GestureDetector(
+        //Minimar el teclado si presiona en otro lado del textForm
+        onTap: (){
+          FocusScope.of(context).unfocus();
+        },
+      child: SingleChildScrollView(
+        child:Container(
         width: double.infinity,
-        height: double.infinity,
+        height: responsive.height,
         color: Colors.white,
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
             Positioned(
-              top: -(pinkSize)*0.3,
+              top: -(pinkSize)*0.35,
               right: -(pinkSize)*0.2,
               child: Circle(
                 size: pinkSize,
@@ -36,7 +43,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Positioned(
-              top: -(orangeSize)*0.35,
+              top: -(orangeSize)*0.65,
               left: -(orangeSize)*0.15,
               child: Circle(
                 size: orangeSize,
@@ -44,27 +51,30 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Positioned(
-              top: pinkSize * 0.45,
+              top: pinkSize * 0.4,
               child: Column(
                 children: [
                   IconContainer(
                     size: logoSize,
                   ),
-                  const SizedBox(
-                    height: 30,
+                  SizedBox(
+                    height: responsive.dp(3),
                   ),
-                  const Text(
+                  Text(
                     "Hello Again\nWelcome Back!",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: responsive.dp(2),
                     ),
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
+            LoginForm()
           ],
         ),
+      ),
+      ),
       ),
     );
   }
