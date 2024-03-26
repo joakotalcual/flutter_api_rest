@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_api_rest/utils/responsive.dart';
 import 'package:flutter_api_rest/widgets/circle.dart';
 import 'package:flutter_api_rest/widgets/icon_container.dart';
 
@@ -13,9 +14,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
 
-    final Size size = MediaQuery.of(context).size;
-    final double pinkSize = size.width * 0.75;
-    final double orangeSize = size.width * 0.67;
+    final Responsive responsive = Responsive.of(context);
+    final double pinkSize = responsive.wp(75);
+    final double orangeSize = responsive.wp(67);
+    final double logoSize = responsive.wp(25);
 
     return Scaffold(
       body: Container(
@@ -34,17 +36,31 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Positioned(
-              top: -(orangeSize)*0.4,
+              top: -(orangeSize)*0.35,
               left: -(orangeSize)*0.15,
               child: Circle(
                 size: orangeSize,
                 colors: const [Colors.orange, Colors.deepOrange],
               ),
             ),
-            const Positioned(
-              top: 130,
-              child: IconContainer(
-                size: 120,
+            Positioned(
+              top: pinkSize * 0.45,
+              child: Column(
+                children: [
+                  IconContainer(
+                    size: logoSize,
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  const Text(
+                    "Hello Again\nWelcome Back!",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  )
+                ],
               ),
             )
           ],

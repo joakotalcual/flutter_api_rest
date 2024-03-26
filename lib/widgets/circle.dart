@@ -8,8 +8,8 @@ class Circle extends StatelessWidget {
   final double size;
   final List<Color> colors;
 
-  const Circle({super.key, required this.size, required this.colors}) :
-  assert(size != null && size > 0),
+  const Circle({super.key, required this.size, required this.colors}) 
+  :assert(size != null && size > 0),
   assert(colors != null && colors.length >= 2);
 
   @override
