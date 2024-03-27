@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_api_rest/utils/responsive.dart';
 import 'package:flutter_api_rest/widgets/avatar_button.dart';
 import 'package:flutter_api_rest/widgets/circle.dart';
-import 'package:flutter_api_rest/widgets/icon_container.dart';
+import 'package:flutter_api_rest/widgets/register_form.dart';
 
 class RegisterPage extends  StatefulWidget{
   static const routeName = 'register';
@@ -72,6 +72,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 ],
               ),
             ),
+            RegisterForm(),
             Positioned(
               left: 15,
               top: 25,
@@ -80,7 +81,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 padding: EdgeInsets.all(10),
                 borderRadius: BorderRadius.circular(30),
                 child: Icon(Icons.arrow_back),
-                onPressed: (){},
+                onPressed: (){
+                  Navigator.pop(context);
+                },
               ),
             ),
           ],

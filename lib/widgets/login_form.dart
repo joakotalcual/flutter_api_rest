@@ -78,7 +78,7 @@ class _LoginFormState extends State<LoginForm> {
                       },
                     ),
                   ),
-                  //Ya quedo obsoleto el flatButton
+                  //Ya quedo obsoleto el flatButton, pero hace la misma función
                   TextButton(
                     onPressed: () {}, // Sin realizar ninguna acción
                     child: const Text(
