@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_api_rest/api/authentication_api.dart';
+import 'package:flutter_api_rest/models/user_register_model.dart';
+import 'package:flutter_api_rest/data/authentication_client.dart';
+import 'package:flutter_api_rest/pages/home_page.dart';
 import 'package:flutter_api_rest/utils/dialogs.dart';
 import 'package:flutter_api_rest/utils/responsive.dart';
 import 'package:flutter_api_rest/widgets/input_text.dart';
-import 'package:logger/logger.dart';
+import 'package:get_it/get_it.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -16,25 +21,41 @@ class _RegisterFormState extends State<RegisterForm> {
 
   final GlobalKey<FormState> _formKey = GlobalKey();
   String _email = '', _password = '', _username = '';
-  final AuthenticationAPI _authenticationAPI = AuthenticationAPI();
-  final Logger _logger = Logger();
+  final _authenticationApi = GetIt.instance<AuthenticationApi>();
+  final _authenticationClient = GetIt.instance<AuthenticationClient>();
 
-  Future<void> _submit() async {
-    final isOk = _formKey.currentState?.validate();
-    if(isOk != null && isOk){
+  Future<void>_submit() async {
+    final bool isOk = _formKey.currentState!.validate();
+    if (isOk) {
       ProgressDialog.show(context);
-      final response = await _authenticationAPI.register(
-        username: _username,
-        email: _email,
-        password: _password
+      final response = await _authenticationApi.register(
+          userRegister: UserRegisterModel(
+              username: _username,
+              email: _email,
+              password: _password
+          ),
       );
-      ProgressDialog.dissmiss(context);
-      if(response.data!=null){
-        _logger.i("register OK");
-      }else{
-        _logger.e("register error statusCode ${response.error.statusCode}");
-        _logger.e("register error message ${response.error.message}");
-        _logger.e("register error data ${response.error.data}");
+      ProgressDialog.dismiss(context);
+      if (response.data != null) {
+        await _authenticationClient.saveSession(response.data!);
+        Navigator.pushNamedAndRemoveUntil(context, HomePage.routeName, (_) => false);
+      }
+      else {
+
+        String message = response.error!.message;
+
+        if (response.error!.statusCode == -1) {
+          message = 'Bad Network';
+        }
+        else if (response.error!.statusCode == 409) {
+          message = 'Duplicate user ${jsonEncode(response.error!.data['duplicatedFields'])}';
+        }
+
+        Dialogs.alert(
+            context,
+            title: 'Error',
+            description: message
+        );
       }
     }
   }
@@ -103,16 +124,16 @@ class _RegisterFormState extends State<RegisterForm> {
               width: double.infinity,
               child: MaterialButton(
                 padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Text(
-                  "Sign up",
-                  style: const TextStyle(
-                    color: Colors.white
-                  ),
-                ),
                 color: Colors.pinkAccent,
                 onPressed: (){
                   _submit();
                 },
+                child: const Text(
+                  "Sign up",
+                  style: TextStyle(
+                    color: Colors.white
+                  ),
+                ),
               ),
             ),
             SizedBox(height: responsive.dp(2)),

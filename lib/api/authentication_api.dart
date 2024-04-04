@@ -1,56 +1,59 @@
-
-import 'package:dio/dio.dart';
+import 'package:flutter_api_rest/models/user_credential_model.dart';
+import 'package:flutter_api_rest/models/user_register_model.dart';
+import 'package:flutter_api_rest/helpers/http.dart';
 import 'package:flutter_api_rest/helpers/http_response.dart';
-import 'package:logger/logger.dart';
+import 'package:flutter_api_rest/models/authentication_response.dart';
 
-class AuthenticationAPI{
-  final Dio _dio = Dio();
-  final Logger _logger = Logger();
+class AuthenticationApi {
 
-  Future<HttpResponse> register({
-    required String username,
-    required String email,
-    required String password,
+  final Http _http;
+
+  AuthenticationApi(this._http);
+
+  Future<HttpResponse<AuthenticationResponse>> register({
+    required UserRegisterModel userRegister,
+  }) {
+    return _http.request<AuthenticationResponse>(
+      '/register',
+      method: 'POST',
+      data: {
+        "username": userRegister.username,
+        "email": userRegister.email,
+        "password": userRegister.password,
+      },
+      parser: (data) {
+        return AuthenticationResponse.fromJson(data);
+      },
+    );
+  }
+
+  Future<HttpResponse<AuthenticationResponse>> login({
+    required UserCredentialModel userCredential,
   }) async {
-    try{
-      final response = await _dio.post(
-            'http://locahost:9000/api/v1/register',
-            options: Options(
-              headers: {
-                'Content-Type': 'Aplication/json',
-              },
-            ),
-            data: {
-              "username": username,
-              "email": email,
-              "password": password
-            }
-          );
-          _logger.i(response.data);
+    return _http.request<AuthenticationResponse>(
+      '/login',
+      method: 'POST',
+      data: {
+        "email": userCredential.email,
+        "password": userCredential.password,
+      },
+      parser: (data) {
+        return AuthenticationResponse.fromJson(data);
+      },
+    );
+  }
 
-          return HttpResponse.success(response.data);
-    }catch(e){
-      _logger.e(e);
-
-      int statusCode = -1223123;
-      String message = "unknown error";
-      dynamic data;
-
-      if(e is DioException){ //Ya esta obsoleto el DioError
-        message = e.message!;
-        if(e.response != null){//No tenia acceso a internet si es nulo
-          statusCode = statusCode = e.response!.statusCode!;//Convertimos de int? a int por si llega a ser nulo el statusCode o response
-          message = e.response!.statusMessage!;
-          data = e.response!.data!;
-        }
-      }
-
-      return HttpResponse.fail(
-        statusCode: statusCode,
-        message: message,
-        data: data
-      );
-    }
+  Future<HttpResponse<AuthenticationResponse>> refreshToken(String expiredToken) {
+    return _http.request<AuthenticationResponse>(
+      '/refresh-token',
+      method: 'POST',
+      headers: {
+        'token': expiredToken,
+      },
+      parser: (data) {
+        return AuthenticationResponse.fromJson(data);
+      },
+    );
   }
 
 }

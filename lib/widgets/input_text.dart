@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 class InputText extends StatelessWidget {
+
   final String label;
-  final bool obscureText, borderEnabled;
+  final TextInputType keyboardType;
+  final bool obscureText;
+  final bool borderEnabled;
   final double fontSize;
   final void Function(String text)? onChanged;
-  final String? Function(String?) validator;
-  final TextInputType keyboardType;
+  final String? Function(String? text)? validator;
+
   const InputText({
     super.key,
     this.label = '',
@@ -15,31 +18,27 @@ class InputText extends StatelessWidget {
     this.borderEnabled = true,
     this.fontSize = 15,
     this.onChanged,
-    required this.validator,
+    this.validator
   });
 
   @override
   Widget build(BuildContext context) {
+    const UnderlineInputBorder underlineInputBorder = UnderlineInputBorder(
+      borderSide: BorderSide(color: Colors.black12),
+    );
     return TextFormField(
       keyboardType: keyboardType,
       obscureText: obscureText,
+      style: TextStyle(fontSize: fontSize),
       onChanged: onChanged,
       validator: validator,
-      style: TextStyle(
-        fontSize: fontSize,
-      ),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(vertical: 5),
-        border: borderEnabled
-          ? const UnderlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.black12,
-            )
-          ): InputBorder.none,
+        enabledBorder: borderEnabled ? underlineInputBorder : InputBorder.none,
         labelText: label,
         labelStyle: const TextStyle(
           color: Colors.black45,
-          fontWeight: FontWeight.w500
+          fontWeight: FontWeight.w500,
         ),
       ),
     );
