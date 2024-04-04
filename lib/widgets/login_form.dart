@@ -1,6 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:flutter_api_rest/api/authentication_api.dart';
+import 'package:flutter_api_rest/data/authentication_cliente.dart';
+import 'package:flutter_api_rest/models/user_credential_model.dart';
+import 'package:flutter_api_rest/pages/home_page.dart';
+import 'package:flutter_api_rest/utils/dialogs.dart';
 import 'package:flutter_api_rest/utils/responsive.dart';
 import 'package:flutter_api_rest/widgets/input_text.dart';
+import 'package:get_it/get_it.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -10,14 +18,41 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-
-  GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
+  final _authenticationApi = GetIt.instance<AuthenticationApi>();
+  final _authenticationClient = GetIt.instance<AuthenticationClient>();
   String _email = '', _password = '';
 
-  _submit(){
-    final isOk = _formKey.currentState?.validate();
-    if(isOk != null && isOk){
+  Future<void> _submit() async {
+    final bool isOk = _formKey.currentState!.validate();
+    if (isOk) {
+      ProgressDialog.show(context);
 
+      final response = await _authenticationApi.login(
+          userCredential:
+              UserCredentialModel(email: _email, password: _password));
+      ProgressDialog.dismiss(context);
+
+      if (response.data != null) {
+        await _authenticationClient.saveSession(response.data!);
+        Navigator.pushNamedAndRemoveUntil(
+          context,
+          HomePage.routeName,
+          (_) => false,
+        );
+      } else {
+        String message = response.error!.message;
+
+        if (response.error!.statusCode == -1) {
+          message = 'Bad Network';
+        } else if (response.error!.statusCode == 403) {
+          message = 'Invalid password';
+        } else if (response.error!.statusCode == 404) {
+          message = 'User not found';
+        }
+
+        Dialogs.alert(context, title: 'Error', description: message);
+      }
     }
   }
 
@@ -96,16 +131,16 @@ class _LoginFormState extends State<LoginForm> {
               width: double.infinity,
               child: MaterialButton(
                 padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Text(
+                color: Colors.pinkAccent,
+                onPressed: (){
+                  _submit();
+                },
+                child: const Text(
                   "Sign in",
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white
                   ),
                 ),
-                color: Colors.pinkAccent,
-                onPressed: (){
-                   _submit();
-                },
               ),
             ),
             SizedBox(height: responsive.dp(2)),
