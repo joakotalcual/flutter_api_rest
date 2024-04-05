@@ -1,12 +1,15 @@
-class HttpResponse <T> {
+// Clase que representa una respuesta HTTP
+class HttpResponse<T> {
+  final T? data; // Datos de la respuesta
+  final HttpError? error; // Error de la respuesta
 
-  final T? data;
-  final HttpError? error;
-
+  // Constructor de la clase HttpResponse
   HttpResponse(this.data, this.error);
 
+  // Método estático para crear una respuesta exitosa
   static HttpResponse<T> success<T>(T data) => HttpResponse(data, null);
 
+  // Método estático para crear una respuesta fallida
   static HttpResponse<T> fail<T>({
     required int statusCode,
     required String message,
@@ -16,19 +19,18 @@ class HttpResponse <T> {
     message: message,
     data: data
   ));
-
 }
 
+// Clase que representa un error HTTP
 class HttpError {
+  final int statusCode; // Código de estado del error
+  final String message; // Mensaje del error
+  final dynamic data; // Datos adicionales del error
 
-  final int statusCode;
-  final String message;
-  final dynamic data;
-
+  // Constructor de la clase HttpError
   HttpError({
     required this.statusCode,
     required this.message,
     required this.data
   });
-
 }

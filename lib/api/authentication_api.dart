@@ -1,15 +1,22 @@
-import 'package:flutter_api_rest/models/user_credential_model.dart';
-import 'package:flutter_api_rest/models/user_register_model.dart';
-import 'package:flutter_api_rest/helpers/http.dart';
-import 'package:flutter_api_rest/helpers/http_response.dart';
-import 'package:flutter_api_rest/models/authentication_response.dart';
+// Importaciones de modelos
+import 'package:flutter_api_rest/models/user_credential_model.dart'; // Importación de la clase UserCredentialModel del paquete models
+import 'package:flutter_api_rest/models/user_register_model.dart'; // Importación de la clase UserRegisterModel del paquete models
 
+// Importaciones de ayudantes
+import 'package:flutter_api_rest/helpers/http.dart'; // Importación de la clase Http del paquete helpers
+import 'package:flutter_api_rest/helpers/http_response.dart'; // Importación de la clase HttpResponse del paquete helpers
+
+// Importaciones de modelos de respuesta
+import 'package:flutter_api_rest/models/authentication_response.dart'; // Importación de la clase AuthenticationResponse del paquete models
+
+// Clase que representa la API de autenticación
 class AuthenticationApi {
+  final Http _http; // Cliente HTTP para realizar peticiones
 
-  final Http _http;
-
+  // Constructor de la clase AuthenticationApi
   AuthenticationApi(this._http);
 
+  // Método para registrar un usuario
   Future<HttpResponse<AuthenticationResponse>> register({
     required UserRegisterModel userRegister,
   }) {
@@ -27,6 +34,7 @@ class AuthenticationApi {
     );
   }
 
+  // Método para iniciar sesión
   Future<HttpResponse<AuthenticationResponse>> login({
     required UserCredentialModel userCredential,
   }) async {
@@ -43,6 +51,7 @@ class AuthenticationApi {
     );
   }
 
+  // Método para refrescar el token de autenticación
   Future<HttpResponse<AuthenticationResponse>> refreshToken(String expiredToken) {
     return _http.request<AuthenticationResponse>(
       '/refresh-token',
@@ -55,5 +64,4 @@ class AuthenticationApi {
       },
     );
   }
-
 }

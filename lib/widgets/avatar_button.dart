@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 class AvatarButton extends StatelessWidget {
 
+  // Atributo de tamaño de la imagen del avatar
   final double imageSize;
 
+  // Constructor de la clase AvatarButton
   const AvatarButton({
     super.key,
     this.imageSize = 100
@@ -12,6 +14,7 @@ class AvatarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Devuelve un widget que muestra un avatar con un botón de agregar
     return  Stack(
       children: [
         Container(

@@ -3,15 +3,18 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class IconContainer extends StatelessWidget {
 
+  // Atributo de tamaño del contenedor de icono
   final double size;
 
+  // Constructor de la clase IconContainer
   const IconContainer({
-    super.key,
+    Key? key,
     required this.size
   }): assert(size > 0);
 
   @override
   Widget build(BuildContext context) {
+    // Devuelve un contenedor que contiene un icono SVG con sombra
     return Container(
       width: size,
       height: size,

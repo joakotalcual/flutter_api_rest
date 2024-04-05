@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_api_rest/utils/responsive.dart';
 import 'package:flutter_api_rest/widgets/circle.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_api_rest/widgets/login_form.dart';
 
 class LoginPage extends StatefulWidget {
 
+  // Definir la ruta de navegación para la página de inicio de sesión
   static const String routeName = 'login';
 
   const LoginPage({super.key});
@@ -18,11 +18,14 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    // Obtener la información de la pantalla para hacerla sensible
     final Responsive responsive = Responsive.of(context);
+    // Definir el tamaño de los círculos de fondo
     final double pinkSize = responsive.wp(80);
     final double orangeSize = responsive.wp(57);
 
     return Scaffold(
+      // La página utiliza un gesto para desactivar el teclado cuando se toca en cualquier lugar
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -34,6 +37,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Stack(
               alignment: Alignment.center,
               children: [
+                // Posicionar un círculo rosa en la parte superior derecha
                 Positioned(
                   right: -pinkSize * 0.2,
                   top: -pinkSize * 0.4,
@@ -45,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
+                // Posicionar un círculo naranja en la parte superior izquierda
                 Positioned(
                   left: -orangeSize * 0.15,
                   top: -orangeSize * 0.55,
@@ -56,6 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
+                // Posicionar el ícono y el texto "Hello Again Welcome Back" en el centro
                 Positioned(
                   top: pinkSize * 0.4,
                   child: Column(
@@ -76,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                 ),
+                // Colocar el formulario de inicio de sesión en la pila
                 const LoginForm(),
               ],
             ),
