@@ -29,7 +29,7 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
     // Agregar un callback para ejecutar después de que se haya construido el widget
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _checkLogin();
     });
   }
